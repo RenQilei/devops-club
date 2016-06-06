@@ -1,3 +1,5 @@
+/public/data
+/public/static
 /node_modules
 Homestead.yaml
 Homestead.json

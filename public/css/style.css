@@ -1,0 +1,62 @@
+body {
+    font-size: 100%;
+}
+
+i.fa {
+    vertical-align: baseline;
+}
+
+header {
+    border-bottom: 1px solid #cccccc;
+}
+
+#logo {
+    margin-top: 15px;
+}
+
+#logo img {
+    width: 100%;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+#add-panel {
+    margin-top: 10px;
+}
+
+#article-create-original-select {
+    margin-bottom: 20px;
+}
+
+#article-create-category-select {
+    margin-bottom: 20px;
+}
+
+#article-create-submit button {
+    width: 100%;
+}
+
+#article-create-title {
+    margin-bottom: 20px;
+}
+
+#article-show-title {
+    font-size: 3.6em;
+    font-weight: bold;
+}
+
+#article-show-content {
+
+}
+
+#article-show-content p {
+    font-size: 1.6em;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+#article-show-content h1 {
+    font-size: 3.5em;
+}
