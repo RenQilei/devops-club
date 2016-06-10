@@ -14,11 +14,11 @@ i.fa {
 header
 */
 header {
-    border-bottom: 1px solid #cccccc;
+    background-color: #24b8eb;
 }
 
 #logo {
-    margin-top: 15px;
+
 }
 
 #logo img {
@@ -29,8 +29,20 @@ nav {
     margin-top: 10px;
 }
 
-#add-panel {
+#header-panel {
     margin-top: 10px;
+}
+
+.header-btn {
+    background-color: #24b8eb;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-weight: 200;
+}
+
+.header-btn:hover {
+    background-color: #ffffff;
+    color: #24b8eb;
 }
 
 /*

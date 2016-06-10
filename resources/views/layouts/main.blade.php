@@ -17,32 +17,34 @@
     @yield('head-partial')
 </head>
 <body>
-<header class="container">
-    <div row>
-        <div id="logo" class="col-lg-2">
-            <a href="{{ url('/') }}">
-                <img src="{{ URL::asset('image/devops-club-logo.jpg') }}">
-            </a>
-        </div>
-        <nav class="col-lg-8">
-            <ul class="list-inline">
-                <li>
-                    <button type="button" class="btn btn-default">
-                        <i class="fa fa-list-ul" aria-hidden="true"></i>
-                        分类
-                    </button>
-                </li>
-            </ul>
-        </nav>
-        <div id="add-panel" class="col-lg-2">
+<header>
+    <div class="container">
+        <div class="row">
+            <div id="logo" class="col-lg-2">
+                <a href="{{ url('/') }}">
+                    <img src="{{ URL::asset('image/devops-club-logo.png') }}">
+                </a>
+            </div>
+            <nav class="col-lg-8">
+                {{--<ul class="list-inline">--}}
+                    {{--<li>--}}
+                        {{--<button type="button" class="btn btn-default">--}}
+                            {{--<i class="fa fa-list-ul" aria-hidden="true"></i>--}}
+                            {{--分类--}}
+                        {{--</button>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            </nav>
+            <div id="header-panel" class="col-lg-2">
             <span>
                 <a href="{{ url('/article/create') }}">
-                    <button type="button" class="btn btn-success">写文章</button>
+                    <button type="button" class="btn header-btn">写文章</button>
                 </a>
             </span>
             <span>
                 @include('layouts.main-user-panel-partial')
             </span>
+            </div>
         </div>
     </div>
 </header>
