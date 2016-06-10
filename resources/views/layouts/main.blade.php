@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" type="text/css" media="screen" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ URL::asset('typo.css/typo.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}">
 
     @yield('head-partial')
@@ -34,15 +35,22 @@
             </ul>
         </nav>
         <div id="add-panel" class="col-lg-2">
-            <a href="{{ url('/article/create') }}">
-                <button type="button" class="btn btn-success">写文章</button>
-            </a>
+            <span>
+                <a href="{{ url('/article/create') }}">
+                    <button type="button" class="btn btn-success">写文章</button>
+                </a>
+            </span>
+            <span>
+                @include('layouts.main-user-panel-partial')
+            </span>
         </div>
     </div>
 </header>
 
 <main class="container">
-    @yield('body')
+    <div id="main-wrapper">
+        @yield('body')
+    </div>
 </main>
 
 <footer>
@@ -50,6 +58,7 @@
 </footer>
 
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 @yield('foot-partial')
 
 </body>

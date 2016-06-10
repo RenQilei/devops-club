@@ -29,6 +29,13 @@
         <label for="password_confirmation">确认密码</label>
         <input type="password" name="password_confirmation" placeholder="确认密码">
 
+        <label for="role">角色</label>
+        <select name="role">
+            <option value="1" select>管理员</option>
+            <option value="2">编辑</option>
+            <option value="3">作者</option>
+        </select>
+
         <input type="submit" value="注册">
     </form>
 </body>

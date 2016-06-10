@@ -17,10 +17,6 @@ class CommonController extends Controller
 
     public function index()
     {
-//        $categoryArray = json_decode(file_get_contents(public_path()."/data/category.json"), true);
-//
-//        dd($categoryArray);
-
         return view('index');
     }
 }

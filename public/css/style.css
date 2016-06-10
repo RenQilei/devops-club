@@ -1,11 +1,18 @@
+/*
+common
+*/
 body {
-    font-size: 100%;
+    font-family: PingFang SC, Verdana, Helvetica Neue, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif;
+    font-size: 16px;
 }
 
 i.fa {
     vertical-align: baseline;
 }
 
+/*
+header
+*/
 header {
     border-bottom: 1px solid #cccccc;
 }
@@ -26,37 +33,105 @@ nav {
     margin-top: 10px;
 }
 
-#article-create-original-select {
-    margin-bottom: 20px;
+/*
+main
+*/
+#main-wrapper {
+    margin: 20px 0;
 }
 
-#article-create-category-select {
-    margin-bottom: 20px;
+/*
+article create
+*/
+#article-create-wrapper {
+
 }
 
-#article-create-submit button {
-    width: 100%;
+/* Fixed the bug: font size of input and button in editor.md */
+#article-create-wrapper input, #article-create-wrapper button {
+    font-size: 16px;
+    line-height: 1;
 }
 
 #article-create-title {
     margin-bottom: 20px;
 }
 
+#article-create-title h3 {
+    font-weight: 300;
+}
+
+#article-create-form-original-select {
+    margin-bottom: 20px;
+}
+
+#article-create-form-category-select {
+    margin-bottom: 20px;
+}
+
+#article-create-form-title {
+    margin-bottom: 20px;
+}
+
+#article-create-form-submit button {
+    width: 100%;
+}
+
+/*
+article show
+*/
 #article-show-title {
-    font-size: 3.6em;
-    font-weight: bold;
+    font-size: 2.7em;
+    margin-bottom: 0.2em;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+.article-show-title-label {
+    font-size: 0.45em;
+    padding: 0.3em 0.5em;
+    font-weight: 200;
+    vertical-align: middle;
+}
+
+#article-show-edit-panel {
+    float: right;
+}
+
+#article-show-essential-button-on {
+    background-color: #5cb85c;
+    color: #ffffff;
+}
+
+#article-show-wiki-button-on {
+    background-color: #5bc0de;
+    color: #ffffff;
+}
+
+#article-show-additional {
+    color: #a3a3a2;
+    font-size: 0.9em;
+}
+
+.article-show-additional-label {
+    font-weight: 200;
 }
 
 #article-show-content {
 
 }
 
-#article-show-content p {
-    font-size: 1.6em;
-    text-align: justify;
-    line-height: 1.8;
+#article-show-like {
+    font-size: 1.8em;
+    text-align: center;
 }
 
-#article-show-content h1 {
-    font-size: 3.5em;
+#article-show-like span {
+    border: 1px solid #000000;
+    padding: 6px 21px;
+    border-radius: 6px;
+}
+
+#article-show-like i {
+    color: #ec6d51;
 }

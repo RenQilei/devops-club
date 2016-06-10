@@ -1,49 +1,53 @@
 @extends('layouts.main')
 
 @section('body')
-    <form method="post" action="/article">
-        {{ csrf_field() }}
-        <h3>
-            <i class="fa fa-file-text-o" aria-hidden="true"></i>
-            写文章
-        </h3>
+    <div id="article-create-wrapper">
+        <div id="article-create-title">
+            <h3>
+                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                写文章
+            </h3>
+        </div>
+        <form method="post" action="/article">
+            {{ csrf_field() }}
 
-        <div class="row">
-            <div id="article-create-original-select" class="col-lg-4">
-                <select name="source-from" class="form-control">
-                    <option value="0">原创</option>
-                    <option value="1">翻译</option>
-                    <option value="2">转载</option>
-                </select>
+            <div class="row">
+                <div id="article-create-form-original-select" class="col-lg-4">
+                    <select name="source-from" class="form-control">
+                        <option value="0">原创</option>
+                        <option value="1">翻译</option>
+                        <option value="2">转载</option>
+                    </select>
+                </div>
+
+                <div id="article-create-form-category-select" class="col-lg-8">
+                    <select name="category" class="form-control">
+                        <option value="">请选择一个分类</option>
+                        @foreach($categories as $rootCategory)
+                            <optgroup label="{{ $rootCategory['name'] }}">
+                                @foreach($rootCategory['children'] as $childCategory)
+                                    <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            <div id="article-create-category-select" class="col-lg-8">
-                <select name="category" class="form-control">
-                    <option value="">请选择一个分类</option>
-                    @foreach($categories as $rootCategory)
-                        <optgroup label="{{ $rootCategory['name'] }}">
-                            @foreach($rootCategory['children'] as $childCategory)
-                                <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
-                            @endforeach
-                        </optgroup>
-                    @endforeach
-                </select>
+            <div id="article-create-form-title" class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="title" placeholder="此处键入标题...">
+                </div>
             </div>
-        </div>
 
-        <div id="article-create-title" class="row">
-            <div class="col-lg-12">
-                <input type="text" class="form-control" name="title" placeholder="此处键入标题...">
+            <div id="editor">
             </div>
-        </div>
 
-        <div id="editor">
-        </div>
-
-        <div id="article-create-submit">
-            <button class="btn btn-success" type="submit" value="submit">发布</button>
-        </div>
-    </form>
+            <div id="article-create-form-submit">
+                <button class="btn btn-success" type="submit" value="submit">发布</button>
+            </div>
+        </form>
+    </div>
 @endsection
 
 @section('head-partial')
