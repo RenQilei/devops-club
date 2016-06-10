@@ -19,6 +19,6 @@
     </div>
 @else
     <a href="{{ url('/auth/login') }}">
-        <button type="button" class="btn btn-success">登录</button>
+        <button type="button" class="btn header-btn">登录</button>
     </a>
 @endif
