@@ -15,11 +15,11 @@
         <span id="article-show-edit-panel">
             <div class="btn-group" role="group" aria-label="文章管理面板">
                 @if(Auth::user())
-                    <button type="button" class="btn btn-default">
+                    <button type="button" name="edit-button" class="btn btn-default">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         修改
                     </button>
-                    @if(1)
+                    @if(Auth::user()->hasRole('admin'))
                         @if($article['is_essential'])
                             <button type="button" name="essential-button" class="btn btn-default" id="article-show-essential-button-on">
                         @else
@@ -37,7 +37,7 @@
                             wiki
                         </button>
                     @endif
-                    <button type="button" class="btn btn-default">
+                    <button type="button" name="delete-button" class="btn btn-default">
                         <i class="fa fa-times" aria-hidden="true"></i>
                         删除
                     </button>
@@ -70,13 +70,21 @@
     @if(Auth::user())
         <meta name="csrf-token" content="{{ csrf_token() }}">
     @endif
+    <link type="text/css" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
 @endsection
 
 @section('foot-partial')
+    <script type="text/javascript" src="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            var editButton = $("button[name='edit-button']");
             var essentialButton = $("button[name='essential-button']");
             var wikiButton = $("button[name='wiki-button']");
+            var deleteButton = $("button[name='delete-button']");
+
+            editButton.click(function() {
+                window.location.href = "{{ url('/article/'.$article['id'].'/edit') }}";
+            });
             essentialButton.click(function() {
                 $.ajax("/article/{{$article['id']}}/set_essential", {
                     type: 'post',
@@ -106,6 +114,42 @@
                         }
                     }
                 });
+            });
+            deleteButton.click(function() {
+                swal({
+                    title: "您希望删除这篇文章吗？",
+                    text: "您确认删除这篇文章后，文章将不再会被读者看到，并进入垃圾箱，直到您将它恢复。",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确认删除",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: false
+                }, function() {
+                    $.ajax("/article/{{$article['id']}}", {
+                        type: 'post',
+                        data: {_method:"delete"},
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        success: function(response) {
+                            if(response == 1) {
+                                swal({
+                                    title: "删除成功",
+                                    text: "这篇文章已删除，并进入垃圾箱。",
+                                    type: "success",
+                                    confirmButtonText: "返回首页",
+                                    closeOnConfirm: false
+                                }, function() {
+                                    window.location.href = "{{ url('/') }}";
+                                });
+                            }
+                            if(response == 0) {
+                                swal("删除失败!", "您的删除操作并未成功执行，请再试一次。", "error");
+                            }
+                        }
+                    });
+
+                });
+
             });
         });
     </script>

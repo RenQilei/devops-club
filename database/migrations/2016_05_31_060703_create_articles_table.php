@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('user_id');
             $table->text('content_md');
             $table->text('content_html');
+            $table->string('uri');
             $table->integer('view_count')->unsigned()->default(0);
             $table->integer('like_count')->unsigned()->default(0);
             $table->boolean('is_essential')->default(false);

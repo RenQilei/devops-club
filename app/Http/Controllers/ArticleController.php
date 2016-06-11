@@ -52,12 +52,13 @@ class ArticleController extends Controller
             'user_id'   => Auth::user()->id,
             'content_md'    => $request['editor-markdown-doc'],
             'content_html'  => $request['editor-html-code'],
+            'uri'           => str_replace(' ', '_', $request['uri']),
             'source_from'   => $request['source-from']
         ];
 
         $newArticle = Article::create($article);
 
-        return redirect('/article/'.$newArticle->id);
+        return redirect('/article/'.(empty($newArticle->uri) ? $newArticle->id : $newArticle->uri));
     }
 
     /**
@@ -73,8 +74,8 @@ class ArticleController extends Controller
             $articleResource = Article::find($article);
         }
         else {
-            // $article is article title
-            $articleResource = Article::where('title', $article)->first();
+            // $article is article uri
+            $articleResource = Article::where('uri', $article)->first();
         }
 
         // $article is array of article info or null
@@ -138,7 +139,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Article::destroy($id);
     }
 
     /**

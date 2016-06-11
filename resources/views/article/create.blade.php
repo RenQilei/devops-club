@@ -43,6 +43,12 @@
             <div id="editor">
             </div>
 
+            <div id="article-create-form-uri" class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="uri" placeholder="此处键入URI...">
+                </div>
+            </div>
+
             <div id="article-create-form-submit">
                 <button class="btn btn-success" type="submit" value="submit">发布</button>
             </div>

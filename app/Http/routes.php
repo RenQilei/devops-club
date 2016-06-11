@@ -24,8 +24,6 @@ Route::get('/', 'CommonController@index');
 
 Route::group(['middleware' => 'auth'], function()
 {
-    Route::get('/home/{$name}', 'HomeController@index');
-
     Route::resource('/article', 'ArticleController', ['except' => ['index', 'show']]);
     Route::post('/article/image/upload', 'ArticleController@uploadImage');
     Route::post('/article/{id}/set_essential', 'ArticleController@setEssential');
