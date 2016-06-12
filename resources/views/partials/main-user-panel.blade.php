@@ -5,8 +5,8 @@
         </button>
         <ul class="dropdown-menu">
             <li>
-                <a href="{{ url('/admin/'.Auth::user()->name) }}">
-                    管理面板
+                <a href="{{ url('/user/'.Auth::user()->name) }}">
+                    个人中心
                 </a>
             </li>
             <li role="separator" class="divider"></li>

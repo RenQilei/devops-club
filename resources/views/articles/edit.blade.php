@@ -16,17 +16,17 @@
                 <div id="article-create-form-original-select" class="col-lg-4">
                     <select name="source-from" class="form-control">
                         @if($article['source_from'] == 0)
-                            <option value="0" select>原创</option>
+                            <option value="0" selected>原创</option>
                         @else
                             <option value="0">原创</option>
                         @endif
                         @if($article['source_from'] == 0)
-                            <option value="1" select>翻译</option>
+                            <option value="1" selected>翻译</option>
                         @else
                             <option value="1">翻译</option>
                         @endif
                         @if($article['source_from'] == 0)
-                            <option value="2" select>转载</option>
+                            <option value="2" selected>转载</option>
                         @else
                             <option value="2">转载</option>
                         @endif
@@ -37,9 +37,14 @@
                     <select name="category" class="form-control">
                         @foreach($categories as $rootCategory)
                             <optgroup label="{{ $rootCategory['name'] }}">
+                                @if($article['category_id'] == $rootCategory['id'])
+                                    <option value="{{ $rootCategory['id'] }}" selected>{{ $rootCategory['name'] }}</option>
+                                @else
+                                    <option value="{{ $rootCategory['id'] }}">{{ $rootCategory['name'] }}</option>
+                                @endif
                                 @foreach($rootCategory['children'] as $childCategory)
                                     @if($article['category_id'] == $childCategory['id'])
-                                        <option value="{{ $childCategory['id'] }}" select>{{ $childCategory['name'] }}</option>
+                                        <option value="{{ $childCategory['id'] }}" selected>{{ $childCategory['name'] }}</option>
                                     @else
                                         <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
                                     @endif
@@ -58,6 +63,12 @@
 
             <div id="editor">
                 <textarea>{{ $article['content_md'] }}</textarea>
+            </div>
+
+            <div id="article-create-form-uri" class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="uri" value="{{ $article['uri'] }}">
+                </div>
             </div>
 
             <div id="article-create-form-submit">
@@ -79,7 +90,7 @@
             var editor = editormd({
                 id: "editor",
                 width: "100%",
-                height: 450,
+                height: 480,
                 path: '{{ URL::asset('editor.md/lib')  }}/',
                 toolbarIcons : function() {
                     return ["undo", "redo", "|", "bold", "del", "italic", "quote", "|", "h1", "h2", "h3", "h4", "h5", "h6", "|", "list-ul", "list-ol", "hr", "|", "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "|", "preview", "fullscreen"]

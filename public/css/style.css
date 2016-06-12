@@ -46,10 +46,96 @@ nav {
 }
 
 /*
+footer
+*/
+footer {
+    padding: 50px 0;
+    background-color: #24b8eb;
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.81em;
+}
+
+footer a {
+    color: #ffffff;
+}
+
+footer a:hover {
+    text-decoration: none;
+}
+
+/*
 main
 */
 #main-wrapper {
     margin: 20px 0;
+}
+
+/*
+common index
+*/
+.index-article-list-item {
+    padding: 15px 0 20px 0;
+    border-bottom: 1px solid #e5e4e6;
+}
+
+.index-article-title {
+    font-size: 1.2em;
+    line-height: 2em;
+}
+
+.index-article-additional {
+    font-size: 0.81em;
+    margin-bottom: 5px;
+}
+
+.index-article-abstract {
+    font-size: 0.81em;
+    text-align: justify;
+    text-justify: inter-ideograph;
+}
+
+/*
+common index sidebar
+*/
+#index-sidebar-nav {
+    border: 1px solid #24b8eb;
+    text-align: center;
+}
+
+.index-sidebar-nav-root-item {
+    background-color: #24b8eb;
+    color: #ffffff;
+    line-height: 2.5em;
+}
+
+.index-sidebar-nav-root-item a {
+    color: #ffffff;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.index-sidebar-nav-root-item a:hover {
+    text-decoration: none;
+}
+
+.index-sidebar-nav-child-item {
+    color: #24b8eb;
+    line-height: 2em;
+}
+
+.index-sidebar-nav-child-item a {
+    color: #24b8eb;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.index-sidebar-nav-child-item a:hover {
+    color: #ffffff;
+    background-color: #59cef5;
+    text-decoration: none;
 }
 
 /*
@@ -82,11 +168,11 @@ article create
 }
 
 #article-create-form-title {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 #article-create-form-uri {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 #article-create-form-submit button {
@@ -150,4 +236,55 @@ article show
 
 #article-show-like i {
     color: #ec6d51;
+}
+
+/*
+category create
+*/
+#category-create-submit-button {
+    width: 100%;
+}
+
+/*
+user
+*/
+#user-main-sidebar-nav {
+    text-align: center;
+}
+
+.user-main-sidebar-nav-title {
+    padding: 10px 0;
+    background-color: #e5e4e6;
+}
+
+.user-main-breadcrumb {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e4e6;
+    font-size: 1.6em;
+    font-weight: 400;
+}
+
+/*
+user all articles
+*/
+#user-article-table td {
+    font-size: 0.81em;
+}
+
+#user-article-table .user-article-table-edit {
+    padding: 0;
+}
+
+#user-article-table .btn-group {
+    width: 100%;
+    height: 100%;
+}
+
+#user-article-table button {
+    width: 25%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    font-size: 0.81em;
+    font-weight: 200;
 }

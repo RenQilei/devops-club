@@ -25,6 +25,7 @@
                         <option value="">请选择一个分类</option>
                         @foreach($categories as $rootCategory)
                             <optgroup label="{{ $rootCategory['name'] }}">
+                                <option value="{{ $rootCategory['id'] }}">{{ $rootCategory['name'] }}</option>
                                 @foreach($rootCategory['children'] as $childCategory)
                                     <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
                                 @endforeach
@@ -68,7 +69,7 @@
             var editor = editormd({
                 id: "editor",
                 width: "100%",
-                height: 450,
+                height: 480,
                 path: '{{ URL::asset('editor.md/lib')  }}/',
                 toolbarIcons : function() {
                     return ["undo", "redo", "|", "bold", "del", "italic", "quote", "|", "h1", "h2", "h3", "h4", "h5", "h6", "|", "list-ul", "list-ol", "hr", "|", "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "|", "preview", "fullscreen"]

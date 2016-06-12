@@ -42,7 +42,7 @@
                 </a>
             </span>
             <span>
-                @include('layouts.main-user-panel-partial')
+                @include('partials.main-user-panel')
             </span>
             </div>
         </div>
@@ -56,11 +56,22 @@
 </main>
 
 <footer>
-
+    <div class="container">
+        &copy; 2016
+        <a href="{{ url('/') }}">DevOps-Club</a>
+        <a href="www.miitbeian.gov.cn">苏ICP备16025223号-1</a>
+    </div>
 </footer>
 
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        if((!document.getElementById('editor')) && (($('header').height() + $('main').height() + $('footer').height()) < window.screen.availHeight)) {
+            $('footer').css({'bottom': '0', 'position': 'absolute', 'width': '100%'});
+        }
+    });
+</script>
 @yield('foot-partial')
 
 </body>

@@ -29,7 +29,11 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/article/{id}/set_essential', 'ArticleController@setEssential');
     Route::post('/article/{id}/set_wiki', 'ArticleController@setWiki');
 
-    Route::resource('/category', 'CategoryController');
+    Route::resource('/category', 'CategoryController', ['except' => ['index', 'show']]);
+
+    Route::get('/user/{name}', 'UserController@index');
+    Route::get('/user/{name}/article', 'UserController@allArticles');
 });
 
 Route::resource('/article', 'ArticleController', ['only' => ['index', 'show']]);
+Route::resource('/category', 'CategoryController', ['only' => ['index', 'show']]);

@@ -33,9 +33,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $categories = $this->getCategoryTree();
+        $categories = getCategoryTree();
 
-        return view('article.create', compact('categories'));
+        return view('articles.create', compact('categories'));
     }
 
     /**
@@ -58,6 +58,11 @@ class ArticleController extends Controller
 
         $newArticle = Article::create($article);
 
+        // Update article_count in Category table
+        $category = Category::find($newArticle->category_id);
+        $category->article_count += 1;
+        $category->save();
+
         return redirect('/article/'.(empty($newArticle->uri) ? $newArticle->id : $newArticle->uri));
     }
 
@@ -69,25 +74,15 @@ class ArticleController extends Controller
      */
     public function show($article)
     {
-        if(is_numeric($article)) {
-            // $article is article id
-            $articleResource = Article::find($article);
-        }
-        else {
-            // $article is article uri
-            $articleResource = Article::where('uri', $article)->first();
-        }
+        $article = refineArticle($article);
 
-        // $article is array of article info or null
-        $article = $articleResource ? $articleResource->toArray() : $articleResource;
         if($article) {
-            $article['author'] = User::find($article['user_id'])->name;
-
             // add one page view count
+            $articleResource = Article::find($article['id']);
             $articleResource->view_count = $article['view_count'] + 1;
             $articleResource->save();
 
-            return view('article.show', compact('article'));
+            return view('articles.show', compact('article'));
         }
         else {
             // article is not existed, return 404 page as a response.
@@ -104,9 +99,9 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::find($id)->toArray();
-        $categories = $this->getCategoryTree();
+        $categories = getCategoryTree();
 
-        return view('article.edit', compact(['article', 'categories']));
+        return view('articles.edit', compact(['article', 'categories']));
     }
 
     /**
@@ -213,22 +208,5 @@ class ArticleController extends Controller
         else {
             return null;
         }
-    }
-
-    /**
-     * Generate tree of all categories, and return as an array.
-     *
-     * @return array
-     */
-    private function getCategoryTree() {
-        $categories = array();
-        $rootCategories = Category::where('parent_category', 0)->get()->toArray();
-        foreach($rootCategories as $rootCategory) {
-            $childCategories = Category::where('parent_category', $rootCategory['id'])->get()->toArray();
-            $rootCategory['children'] = $childCategories;
-            array_push($categories, $rootCategory);
-        }
-
-        return $categories;
     }
 }
