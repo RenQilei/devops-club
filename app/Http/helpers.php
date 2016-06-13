@@ -35,6 +35,15 @@ function getArticles() {
     return $articles;
 }
 
+function getHotArticles() {
+    $articles = Article::where('deleted_at', null)->orderBy('view_count', 'desc')->get()->toArray();
+    for($i = 0; $i < count($articles); $i++) {
+        $articles[$i] = refineArticle($articles[$i]['id']);
+    }
+
+    return $articles;
+}
+
 function getUserArticles($id) {
     $articles = Article::where('deleted_at', null)->where('user_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
     for($i = 0; $i < count($articles); $i++) {
@@ -67,6 +76,9 @@ function refineArticle($article) {
         $category = Category::find($article['category_id']);
         $user = User::find($article['user_id']);
         $article['category_info'] = $category->toArray();
+        if($article['category_info']['parent_category']) {
+            $article['category_info']['parent_category_info'] = Category::find($article['category_info']['parent_category'])->toArray();
+        }
         $article['user_info'] = $user->toArray();
         $article['abstract'] = mb_substr(strip_tags($article['content_html']),0,100,'utf-8').
             '...<a href="'.refineArticleUrl($article).'">[阅读全文]</a>';

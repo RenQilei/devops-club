@@ -74,6 +74,7 @@ class ArticleController extends Controller
      */
     public function show($article)
     {
+        $categories = getCategoryTree();
         $article = refineArticle($article);
 
         if($article) {
@@ -82,7 +83,7 @@ class ArticleController extends Controller
             $articleResource->view_count = $article['view_count'] + 1;
             $articleResource->save();
 
-            return view('articles.show', compact('article'));
+            return view('articles.show', compact('categories', 'article'));
         }
         else {
             // article is not existed, return 404 page as a response.

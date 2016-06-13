@@ -96,43 +96,61 @@ common index
 }
 
 /*
-common index sidebar
+common left sidebar
 */
-#index-sidebar-nav {
-    border: 1px solid #24b8eb;
+#left-sidebar-nav {
+    border-left: 1px solid #24b8eb;
+    border-right: 1px solid #24b8eb;
+    border-bottom: 1px solid #24b8eb;
     text-align: center;
 }
 
-.index-sidebar-nav-root-item {
-    background-color: #24b8eb;
-    color: #ffffff;
+.left-sidebar-nav-root-item {
+    color: #24b8eb;
     line-height: 2.5em;
+    font-weight: 400;
+    border-top: 1px solid #24b8eb;
+    border-bottom: 1px solid #24b8eb;
 }
 
-.index-sidebar-nav-root-item a {
-    color: #ffffff;
+.left-sidebar-nav-root-item a {
+    color: #24b8eb;
     display: block;
     width: 100%;
     height: 100%;
 }
 
-.index-sidebar-nav-root-item a:hover {
+.left-sidebar-nav-root-item a:hover {
+    color: #ffffff;
+    background-color: #24b8eb;
     text-decoration: none;
 }
 
-.index-sidebar-nav-child-item {
-    color: #24b8eb;
-    line-height: 2em;
+.left-sidebar-nav-root-item-active {
+    color: #ffffff;
+    background-color: #24b8eb;
+    text-decoration: none;
 }
 
-.index-sidebar-nav-child-item a {
+.left-sidebar-nav-child-item {
+    color: #24b8eb;
+    line-height: 1.8em;
+}
+
+.left-sidebar-nav-child-item a {
     color: #24b8eb;
     display: block;
     width: 100%;
     height: 100%;
 }
 
-.index-sidebar-nav-child-item a:hover {
+.left-sidebar-nav-child-item a:hover {
+    color: #ffffff;
+    background-color: #59cef5;
+    text-decoration: none;
+}
+
+.left-sidebar-nav-child-item-active {
     color: #ffffff;
     background-color: #59cef5;
     text-decoration: none;
@@ -182,15 +200,23 @@ article create
 /*
 article show
 */
+#article-show-breadcrumb {
+    padding-left: 12px;
+    margin-bottom: 12px;
+    border-left: 5px solid #a0d8ef;
+    font-weight: 200;
+    font-size: 0.9em;
+}
+
 #article-show-title {
-    font-size: 2.7em;
-    margin-bottom: 0.2em;
+    font-size: 2em;
+    margin-bottom: 5px;
     line-height: 1.4;
     font-weight: 400;
 }
 
 .article-show-title-label {
-    font-size: 0.45em;
+    font-size: 0.5em;
     padding: 0.3em 0.5em;
     font-weight: 200;
     vertical-align: middle;
@@ -211,6 +237,7 @@ article show
 }
 
 #article-show-additional {
+    margin-bottom: 20px;
     color: #a3a3a2;
     font-size: 0.9em;
 }

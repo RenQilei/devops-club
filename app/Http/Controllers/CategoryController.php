@@ -90,7 +90,9 @@ class CategoryController extends Controller
         // redefine $categoryResource to $category
         $category = $categoryResource->toArray();
 
-        return view('categories.show', compact('category', 'articles'));
+        $categories = getCategoryTree();
+
+        return view('categories.show', compact('categories', 'category', 'articles'));
     }
 
     /**

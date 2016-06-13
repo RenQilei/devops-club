@@ -1,10 +1,10 @@
 @extends('layouts.main')
 
 @section('body')
-    <div>
-
+    <div class="col-lg-2">
+        @include('partials.left-sidebar')
     </div>
-    <div>
+    <div class="col-lg-10">
         <ul>
             @foreach($articles as $article)
                 <li>

@@ -15,6 +15,17 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}">
 
     @yield('head-partial')
+
+    <!-- 百度统计 -->
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?661a72f655c767507c494a04f9adbacf";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
 <header>
@@ -65,13 +76,37 @@
 
 <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function() {
-        if((!document.getElementById('editor')) && (($('header').height() + $('main').height() + $('footer').height()) < window.screen.availHeight)) {
+        if((!document.getElementById('editor')) && (($('header').outerHeight() + $('main').outerHeight() + $('footer').outerHeight() + 50) < window.screen.availHeight)) {
             $('footer').css({'bottom': '0', 'position': 'absolute', 'width': '100%'});
         }
     });
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var url = document.URL;
+        @foreach($categories as $category)
+            var categorySlug = '{{ $category['slug'] }}';
+            if(('{{ url('/category') }}' + '/' + categorySlug) == url) {
+                $('.left-sidebar-nav-root-item-active').removeClass('left-sidebar-nav-root-item-active');
+                $(('#left-sidebar-nav-' + categorySlug)).addClass('left-sidebar-nav-root-item-active');
+                $(('#left-sidebar-nav-' + categorySlug) + '>a').css('color', '#ffffff');
+            }
+            @foreach($category['children'] as $childCategory)
+                var childCategorySlug = '{{ $childCategory['slug'] }}';
+                if(('{{ url('/category') }}' + '/' + childCategorySlug) == url) {
+                    $('.left-sidebar-nav-child-item-active').removeClass('left-sidebar-nav-child-item-active');
+                    $(('#left-sidebar-nav-' + childCategorySlug)).addClass('left-sidebar-nav-child-item-active');
+                    $(('#left-sidebar-nav-' + childCategorySlug) + '>a').css('color', '#ffffff');
+                }
+            @endforeach
+        @endforeach
+    });
+</script>
+
 @yield('foot-partial')
 
 </body>

@@ -1,33 +1,10 @@
 @extends('layouts.main')
 
 @section('body')
-    <div class="row">
+    <div id="index-wrapper" class="row">
         {{-- Left siderbar --}}
         <div class="col-lg-2">
-            <div id="index-sidebar-nav">
-                <ul>
-                    @foreach($categories as $category)
-                        <li class="index-sidebar-nav-root-item">
-                            {{-- 父节点 --}}
-                            <a href="{{ url('/category/'.$category['slug']) }}">
-                                {{ $category['name'] }}
-                            </a>
-                        </li>
-                        <li>
-                            <ul>
-                                @foreach($category['children'] as $childCategory)
-                                    <li class="index-sidebar-nav-child-item">
-                                        {{-- 子节点 --}}
-                                        <a href="{{ url('/category/'.$childCategory['slug']) }}">
-                                            {{ $childCategory['name'] }}
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+            @include('partials.left-sidebar')
         </div>
         {{-- Main body -- Article list --}}
         <div class="col-lg-7">
