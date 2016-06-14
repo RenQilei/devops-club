@@ -21,7 +21,7 @@
                 <tr>
                     <td>
                         <a href="{{ refineArticleUrl($article) }}">
-                            {{ $article['title'] }}
+                            {{ mb_substr($article['title'],0,20,'utf-8') }}
                         </a>
                     </td>
                     <td>

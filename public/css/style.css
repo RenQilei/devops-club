@@ -251,18 +251,16 @@ article show
 }
 
 #article-show-like {
-    font-size: 1.8em;
+    font-size: 0.81em;
     text-align: center;
 }
 
-#article-show-like span {
-    border: 1px solid #000000;
-    padding: 6px 21px;
+#article-show-like button {
+    border: 1px solid #ec6d51;
+    padding: 6px 12px;
     border-radius: 6px;
-}
-
-#article-show-like i {
     color: #ec6d51;
+    background-color: #ffffff;
 }
 
 /*
@@ -270,6 +268,30 @@ category create
 */
 #category-create-submit-button {
     width: 100%;
+}
+
+/*
+category show
+*/
+.category-show-article-list-item {
+    padding: 15px 0 20px 0;
+    border-bottom: 1px solid #e5e4e6;
+}
+
+.category-show-article-title {
+    font-size: 1.2em;
+    line-height: 2em;
+}
+
+.category-show-article-additional {
+    font-size: 0.81em;
+    margin-bottom: 5px;
+}
+
+.category-show-article-abstract {
+    font-size: 0.81em;
+    text-align: justify;
+    text-justify: inter-ideograph;
 }
 
 /*

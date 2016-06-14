@@ -119,7 +119,8 @@ class ArticleController extends Controller
             'category_id'   => $request['category'],
             'content_md'    => $request['editor-markdown-doc'],
             'content_html'  => $request['editor-html-code'],
-            'source_from'   => $request['source-from']
+            'source_from'   => $request['source-from'],
+            'uri'           => $request['uri']
         ];
 
         Article::find($id)->update($article);

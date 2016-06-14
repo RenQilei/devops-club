@@ -27,7 +27,7 @@ class UserController extends Controller
     public function allArticles($name)
     {
         $user = User::where('name', $name)->first();
-        $articles = getUserArticles($user->id);
+        $articles = getArticlesByUserId($user->id);
 
         return view('users.article', compact('articles'));
     }

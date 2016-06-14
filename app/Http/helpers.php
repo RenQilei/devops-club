@@ -44,8 +44,17 @@ function getHotArticles() {
     return $articles;
 }
 
-function getUserArticles($id) {
+function getArticlesByUserId($id) {
     $articles = Article::where('deleted_at', null)->where('user_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
+    for($i = 0; $i < count($articles); $i++) {
+        $articles[$i] = refineArticle($articles[$i]['id']);
+    }
+
+    return $articles;
+}
+
+function getArticlesByCategoryId($id) {
+    $articles = Article::where('category_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
     for($i = 0; $i < count($articles); $i++) {
         $articles[$i] = refineArticle($articles[$i]['id']);
     }

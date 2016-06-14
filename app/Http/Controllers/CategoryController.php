@@ -81,7 +81,7 @@ class CategoryController extends Controller
 
         // Retrieve article list of this specific category.
         if($categoryResource->article_count > 0) {
-            $articles = Article::where('category_id', $categoryId)->get()->toArray();
+            $articles = getArticlesByCategoryId($categoryId);
         }
         else {
             $articles = array();
@@ -103,19 +103,24 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $rootCategories = Category::where('parent_category', 0)->get()->toArray();
+        $category = Category::find($id)->toArray();
+
+        return view('categories.edit', compact('rootCategories','category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\CategoryRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        //
+        Category::find($id)->update($request->except('_token'));
+
+        return redirect('/category/'.$id);
     }
 
     /**
@@ -126,6 +131,24 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $flag = 0; // default: do not allow to delete category
+        $destroyedCategory = 0;
+        $category = Category::find($id);
+
+        // root category, AND no child category left, AND no article left
+        if(($category['parent_category'] == 0) && (!Category::where('parent_category', $id)->get()) && (!$category['article_count'])) {
+            $flag = 1;
+        }
+
+        // child category, AND no article left
+        if(($category['parent_category'] != 0) && (!$category['article_count'])) {
+            $flag = 1;
+        }
+
+        if($flag) {
+            $destroyedCategory = Category::destroy($id);
+        }
+
+        return $destroyedCategory;
     }
 }

@@ -52,10 +52,12 @@
                 {!! $article['content_html'] !!}
             </div>
             <div id="article-show-like">
-            <span>
-                <i class="fa fa-heart-o" aria-hidden="true"></i>
-                {{ $article['like_count'] }}
-            </span>
+                <button>
+                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                    喜欢
+                    |
+                    {{ $article['like_count'] }}
+                </button>
             </div>
         </div>
     </div>
@@ -70,5 +72,12 @@
 
 @section('foot-partial')
     <script type="text/javascript" src="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+
     @include('partials.article-edit-script')
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+        });
+    </script>
 @endsection
