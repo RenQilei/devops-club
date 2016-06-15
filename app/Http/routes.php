@@ -28,11 +28,14 @@ Route::group(['middleware' => 'auth'], function()
     Route::post('/article/image/upload', 'ArticleController@uploadImage');
     Route::post('/article/{id}/set_essential', 'ArticleController@setEssential');
     Route::post('/article/{id}/set_wiki', 'ArticleController@setWiki');
+    Route::post('/article/{id}/modify_like', 'ArticleController@modifyLike');
+    Route::post('/article/check_user_article_like', 'ArticleController@checkUserArticleLike');
 
     Route::resource('/category', 'CategoryController', ['except' => ['index', 'show']]);
 
     Route::get('/user/{name}', 'UserController@index');
     Route::get('/user/{name}/article', 'UserController@allArticles');
+    Route::get('/user/{name}/trash', 'UserController@trash');
 });
 
 Route::resource('/article', 'ArticleController', ['only' => ['index', 'show']]);

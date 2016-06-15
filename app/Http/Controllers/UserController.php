@@ -31,4 +31,13 @@ class UserController extends Controller
 
         return view('users.article', compact('articles'));
     }
+
+    public function trash($name)
+    {
+        $user = User::where('name', $name)->first();
+        $articlesInTrash = getArticleInTrashByUserId($user->id);
+        dd($articlesInTrash);
+
+        return view('users.trash', compact('articlesInTrash'));
+    }
 }

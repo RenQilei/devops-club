@@ -4,42 +4,47 @@
     <div class="user-main-breadcrumb">
         我的文章
         /
-        <a href="{{ url('/user/'.Auth::user()->name.'/article') }}">所有文章</a>
+        <a href="{{ url('/user/'.Auth::user()->name.'/trash') }}">回收站</a>
     </div>
     <table id="user-article-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
-            <tr>
-                <th>标题</th>
-                <th>分类</th>
-                <th>日期</th>
-                <th>阅读量</th>
-                <th>管理</th>
-            </tr>
+        <tr>
+            <th>标题</th>
+            <th>分类</th>
+            <th>删除日期</th>
+            <th>阅读量</th>
+            <th>管理</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach($articles as $article)
-                <tr>
-                    <td>
-                        <a href="{{ refineArticleUrl($article) }}">
-                            {{ mb_substr($article['title'],0,20,'utf-8') }}
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{{ url('/category/'.$article['category_info']['slug']) }}">
-                            {{ $article['category_info']['name'] }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ $article['date'] }}
-                    </td>
-                    <td>
-                        {{ $article['view_count'] }}
-                    </td>
-                    <td class="user-article-table-edit">
-                        @include('partials.article-edit-panel')
-                    </td>
-                </tr>
-            @endforeach
+        @foreach($articlesInTrash as $article)
+            <tr>
+                <td>
+                    <a href="{{ refineArticleUrl($article) }}">
+                        {{ mb_substr($article['title'],0,20,'utf-8') }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ url('/category/'.$article['category_info']['slug']) }}">
+                        {{ $article['category_info']['name'] }}
+                    </a>
+                </td>
+                <td>
+                    {{ $article['date'] }}
+                </td>
+                <td>
+                    {{ $article['view_count'] }}
+                </td>
+                <td class="user-article-table-edit">
+                    <span>
+                        恢复
+                    </span>
+                    <span>
+                        彻底删除
+                    </span>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 @endsection

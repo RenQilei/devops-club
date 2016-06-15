@@ -89,6 +89,7 @@ class CategoryController extends Controller
 
         // redefine $categoryResource to $category
         $category = $categoryResource->toArray();
+        $category['parent_category_info'] = $category['parent_category'] ? Category::find($category['parent_category'])->toArray() : null;
 
         $categories = getCategoryTree();
 

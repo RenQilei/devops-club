@@ -12,7 +12,7 @@
                         <a href="{{ url('/user/'.Auth::user()->name.'/article') }}">所有文章</a>
                     </li>
                     <li>
-                        <a href="">回收站</a>
+                        <a href="{{ url('/user/'.Auth::user()->name.'/trash') }}">回收站</a>
                     </li>
                 </ul>
             </li>

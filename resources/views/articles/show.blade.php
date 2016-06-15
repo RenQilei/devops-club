@@ -52,11 +52,11 @@
                 {!! $article['content_html'] !!}
             </div>
             <div id="article-show-like">
-                <button>
+                <button name="article-show-like-button" class="">
                     <i class="fa fa-heart-o" aria-hidden="true"></i>
                     喜欢
                     |
-                    {{ $article['like_count'] }}
+                    <span id="article-show-like-count">{{ $article['like_count'] }}</span>
                 </button>
             </div>
         </div>
@@ -77,7 +77,63 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-
+            var likeButton = $('button[name="article-show-like-button"]');
+            var likeCountSpan = $('#article-show-like-count');
+            @if(Auth::user())
+                $.ajax("/article/check_user_article_like", {
+                    type: 'post',
+                    data: {
+                        user_id: '{{Auth::user()->id}}',
+                        article_id: '{{ $article['id'] }}'
+                    },
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    success: function(response) {
+                        if(response == 1) {
+                            likeButton.addClass('article-show-like-button-active');
+                            likeButton.css({"background-color": "#ec6d51", "color": "#ffffff"});
+                        }
+                    }
+                });
+            @endif
+            likeButton.click(function() {
+                @if(Auth::user())
+                    // only could be operated if user authenticated.
+                    if($(this).attr('class') == 'article-show-like-button-active') {
+                        $.ajax("/article/{{$article['id']}}/modify_like", {
+                            type: 'post',
+                            data: {like:-1},
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            success: function(response) {
+                                if(response == 1) {
+                                    likeButton.removeClass('article-show-like-button-active');
+                                    likeButton.css({"background-color": "#ffffff", "color": "#ec6d51"});
+                                    likeCountSpan.text(function(i, original) {
+                                        return parseInt(original) - 1;
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        $.ajax("/article/{{$article['id']}}/modify_like", {
+                            type: 'post',
+                            data: {like:1},
+                            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                            success: function(response) {
+                                if(response == 1) {
+                                    likeButton.addClass('article-show-like-button-active');
+                                    likeButton.css({"background-color": "#ec6d51", "color": "#ffffff"});
+                                    likeCountSpan.text(function(i, original) {
+                                        return parseInt(original) + 1;
+                                    });
+                                }
+                            }
+                        });
+                    }
+                @else
+                    window.location.href = "{{ url('/auth/login') }}";
+                @endif
+            });
         });
     </script>
 @endsection

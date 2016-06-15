@@ -5,6 +5,21 @@
         @include('partials.left-sidebar')
     </div>
     <div class="col-lg-7">
+        <div id="category-show-breadcrumb">
+            <a href="{{ url('/') }}">
+                首页
+            </a>
+            /
+            @if($category['parent_category'])
+                <a href="{{ url('/category/'.$category['parent_category_info']['slug']) }}">
+                    {{ $category['parent_category_info']['name'] }}
+                </a>
+                /
+            @endif
+            <a href="{{ url('/category/'.$category['slug']) }}">
+                {{ $category['name'] }}
+            </a>
+        </div>
         <ul>
             @foreach($articles as $article)
                 <li class="category-show-article-list-item">

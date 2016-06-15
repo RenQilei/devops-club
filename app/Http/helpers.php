@@ -3,6 +3,7 @@
 use App\Article;
 use App\Category;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Generate tree of all categories, and return as an array.
@@ -62,6 +63,17 @@ function getArticlesByCategoryId($id) {
     return $articles;
 }
 
+function getArticleInTrashByUserId($id) {
+    // articles is an array, but items are objects
+    $articles = DB::table('articles')->whereNotNull('deleted_at')->where('user_id', $id)->orderBy('created_at', 'desc')->get();
+    for($i = 0; $i < count($articles); $i++) {
+        $articles[$i] = refineArticle($articles[$i]->id);
+    }
+    dd($articles);
+
+    return $articles;
+}
+
 /**
  * Get article id/uri as a parameter and refine article info, including category, user, abstract and date.
  *
@@ -72,15 +84,16 @@ function refineArticle($article) {
     // Retrieve original article resource
     if(is_numeric($article)) {
         // $article is article id
-        $articleResource = Article::find($article);
+        $articleResource = DB::table('articles')->where('id', $article)->first();
     }
     else {
         // $article is article uri
-        $articleResource = Article::where('uri', $article)->first();
+        $articleResource = DB::table('articles')->where('uri', $article)->first();
     }
 
-    // $article is array of article info or null
-    $article = $articleResource ? $articleResource->toArray() : $articleResource;
+    // convert stdClass to Array
+    $article = objectToArray($articleResource);
+
     if($article) {
         $category = Category::find($article['category_id']);
         $user = User::find($article['user_id']);
@@ -99,4 +112,26 @@ function refineArticle($article) {
 
 function refineArticleUrl($article) {
     return url('/article/'.(empty($article['uri']) ? $article['id'] : $article['uri']));
+}
+
+/**
+ * Convert stdClass to Array
+ *
+ * @param $array
+ * @return array
+ */
+function objectToArray($array)
+{
+    if(is_object($array))
+    {
+        $array = (array)$array;
+    }
+    if(is_array($array))
+    {
+        foreach($array as $key=>$value)
+        {
+            $array[$key] = objectToArray($value);
+        }
+    }
+    return $array;
 }

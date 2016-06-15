@@ -6,6 +6,7 @@ use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
 use App\User;
+use App\UserArticleLike;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -114,6 +115,17 @@ class ArticleController extends Controller
      */
     public function update(ArticleRequest $request, $id)
     {
+        // Check whether article category changed.
+        // If yes, Must to change the article count of category.
+        $originalArticleCategoryId = Article::find($id)->category_id;
+
+        if($originalArticleCategoryId != $request['category']) {
+            // minus one count of original category
+            $category = Category::find($originalArticleCategoryId);
+            $category->article_count -= 1;
+            $category->save();
+        }
+
         $article = [
             'title' => $request['title'],
             'category_id'   => $request['category'],
@@ -123,7 +135,21 @@ class ArticleController extends Controller
             'uri'           => $request['uri']
         ];
 
-        Article::find($id)->update($article);
+        $response = Article::find($id)->update($article);
+
+        if(!$response) {
+            // If article is not updated successfully, correct article count of category.
+            $category = Category::find($originalArticleCategoryId);
+            $category->article_count += 1;
+            $category->save();
+        }
+
+        if($response && ($originalArticleCategoryId != $request['category'])) {
+            // add one count of new category
+            $category = Category::find($request['category']);
+            $category->article_count += 1;
+            $category->save();
+        }
 
         return redirect('/article/'.$id);
     }
@@ -186,9 +212,9 @@ class ArticleController extends Controller
         $response = $article->save();
 
         if ($response) {
-            return $article->is_essential;
+            return 1;
         } else {
-            return null;
+            return 0;
         }
     }
 
@@ -205,10 +231,58 @@ class ArticleController extends Controller
         $response = $article->save();
 
         if($response) {
-            return $article->is_wiki;
+            return 1;
         }
         else {
-            return null;
+            return 0;
+        }
+    }
+
+    public function modifyLike(Request $request, $id) {
+        $likeChange = $request['like'];
+        // Check if like request is correct.
+        $existedLike = UserArticleLike::where('user_id', Auth::user()->id)->where('article_id', $id)->first();
+
+        if(($likeChange == 1) && (!$existedLike)) {
+            // add user_article_like record
+            $userArticleLike = [
+                'user_id'       => Auth::user()->id,
+                'article_id'    => $id
+            ];
+            $createResponse = DB::table('user_article_likes')->insert($userArticleLike);
+            if($createResponse) {
+                // add one like count
+                $article = Article::find($id);
+                $article->like_count += 1;
+                $response = $article->save();
+            }
+        }
+
+        if(($likeChange == -1) && ($existedLike)) {
+            // delete user_article_like record
+            $deleteResponse = UserArticleLike::where('user_id', Auth::user()->id)->where('article_id', $id)->delete();
+            if($deleteResponse) {
+                // minus one like count
+                $article = Article::find($id);
+                $article->like_count -= 1;
+                $response = $article->save();
+            }
+        }
+
+        if ($response) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function checkUserArticleLike(Request $request) {
+        $existedLike = UserArticleLike::where('user_id', $request['user_id'])->where('article_id', $request['article_id'])->first();
+        if($existedLike) {
+            return 1;
+        }
+        else {
+            return 0;
         }
     }
 }
