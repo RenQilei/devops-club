@@ -61,13 +61,17 @@ class CategoryController extends Controller
      */
     public function show($category)
     {
-        // Retrieve info of this specific category.
+        // Use array to store category info, in case more than one root and child category
+        $categoryResources = array();
+
+        // Retrieve category info, if not existed, throw 404 error.
         if(is_numeric($category)) {
             // $category is category id
             $categoryResource = Category::find($category);
             if($categoryResource == null) {
                 return abort(404);
             }
+            array_push($categoryResources, $categoryResource);
             $categoryId = $category;
         }
         else {
@@ -76,7 +80,14 @@ class CategoryController extends Controller
             if($categoryResource == null) {
                 return abort(404);
             }
+            array_push($categoryResources, $categoryResource);
             $categoryId = $categoryResource->id;
+        }
+
+        // Check if it is root category will retrieve child category info
+        if($categoryId == 0) {
+            $childCategoryResources = Category::where('parent_category', $categoryId)->get();
+            array_push($categoryResources, $childCategoryResources);
         }
 
         // Retrieve article list of this specific category.

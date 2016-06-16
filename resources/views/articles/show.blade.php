@@ -68,9 +68,14 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     @endif
     <link type="text/css" href="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+    <link type="text/css" href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized_light.min.css" rel="stylesheet">
 @endsection
 
 @section('foot-partial')
+    <script type="text/javascript" src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+    </script>
     <script type="text/javascript" src="//cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     @include('partials.article-edit-script')

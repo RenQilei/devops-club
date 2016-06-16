@@ -2,11 +2,19 @@
 
 @section('body')
     <div id="article-create-wrapper">
-        <div id="article-create-title">
-            <h3>
-                <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                写文章
-            </h3>
+        <div id="article-create-title" class="row">
+            <span class="col-lg-3">
+                <h3>
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                    写文章
+                </h3>
+            </span>
+            <span id="article-create-writing-guidelines" class="col-lg-offset-6 col-lg-3">
+                <a href="https://mazhuang.org/wiki/chinese-copywriting-guidelines/" target="_blank">
+                    <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                    文案排版遵循规范
+                </a>
+            </span>
         </div>
         <form method="post" action="/article">
             {{ csrf_field() }}

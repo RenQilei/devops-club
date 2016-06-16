@@ -225,7 +225,8 @@ class ArticleController extends Controller
      * @param $id
      * @return int|null
      */
-    public function setWiki(Request $request, $id) {
+    public function setWiki(Request $request, $id)
+    {
         $article = Article::find($id);
         $article->is_wiki = $article->is_wiki ? 0 : 1;
         $response = $article->save();
@@ -238,7 +239,8 @@ class ArticleController extends Controller
         }
     }
 
-    public function modifyLike(Request $request, $id) {
+    public function modifyLike(Request $request, $id)
+    {
         $likeChange = $request['like'];
         // Check if like request is correct.
         $existedLike = UserArticleLike::where('user_id', Auth::user()->id)->where('article_id', $id)->first();
@@ -276,7 +278,8 @@ class ArticleController extends Controller
         }
     }
 
-    public function checkUserArticleLike(Request $request) {
+    public function checkUserArticleLike(Request $request)
+    {
         $existedLike = UserArticleLike::where('user_id', $request['user_id'])->where('article_id', $request['article_id'])->first();
         if($existedLike) {
             return 1;

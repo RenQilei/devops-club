@@ -290,6 +290,7 @@ class ComposerStaticInite076afe45cb086ab2da8c82077e278c9
         'CreateArticlesTable' => __DIR__ . '/../..' . '/database/migrations/2016_05_31_060703_create_articles_table.php',
         'CreateCategoryTables' => __DIR__ . '/../..' . '/database/migrations/2016_06_01_063929_create_category_tables.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateTagsTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_16_151150_create_tags_table.php',
         'CreateUserArticleLikesTable' => __DIR__ . '/../..' . '/database/migrations/2016_06_15_135804_create_user_article_likes_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

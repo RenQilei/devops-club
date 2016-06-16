@@ -177,6 +177,10 @@ article create
     font-weight: 300;
 }
 
+#article-create-writing-guidelines {
+    text-align: right;
+}
+
 #article-create-form-original-select {
     margin-bottom: 20px;
 }

@@ -55,7 +55,10 @@ function getArticlesByUserId($id) {
 }
 
 function getArticlesByCategoryId($id) {
-    $articles = Article::where('category_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
+    if(!is_array($id)) {
+        $id = [$id];
+    }
+    $articles = Article::whereIn('category_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
     for($i = 0; $i < count($articles); $i++) {
         $articles[$i] = refineArticle($articles[$i]['id']);
     }
