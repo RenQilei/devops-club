@@ -258,6 +258,12 @@ article show
 
 }
 
+#article-show-tags {
+    margin-bottom: 30px;
+    color: #1abc9c;
+    font-size: 0.9em;
+}
+
 #article-show-like {
     font-size: 0.81em;
     text-align: center;

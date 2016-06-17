@@ -51,9 +51,12 @@
             <div class="typo" id="article-show-content">
                 {!! $article['content_html'] !!}
             </div>
-            <div>
+            <div id="article-show-tags">
+                <i class="fa fa-tags" aria-hidden="true"></i>
                 @foreach($article['tags'] as $tag)
-                    {{$tag['name']}}<br/>
+                    <a href="{{ url('/tag/'.$tag['id']) }}">
+                        {{$tag['name']}}
+                    </a>
                 @endforeach
             </div>
             <div id="article-show-like">
