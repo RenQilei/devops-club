@@ -2,6 +2,7 @@
 
 use App\Article;
 use App\Category;
+use App\Tag;
 use App\User;
 use Illuminate\Support\Facades\DB;
 
@@ -98,16 +99,31 @@ function refineArticle($article) {
     $article = objectToArray($articleResource);
 
     if($article) {
+        // category info
         $category = Category::find($article['category_id']);
-        $user = User::find($article['user_id']);
         $article['category_info'] = $category->toArray();
         if($article['category_info']['parent_category']) {
             $article['category_info']['parent_category_info'] = Category::find($article['category_info']['parent_category'])->toArray();
         }
+        // user info
+        $user = User::find($article['user_id']);
         $article['user_info'] = $user->toArray();
+        // abstract
         $article['abstract'] = mb_substr(strip_tags($article['content_html']),0,100,'utf-8').
             '...<a href="'.refineArticleUrl($article).'">[阅读全文]</a>';
+        // date refine
         $article['date'] = substr($article['created_at'], 0, 10);
+        // tag info
+        $tagIds = DB::table('article_tag')->where('article_id', $article['id'])->lists('tag_id');
+        $tags= [];
+        foreach($tagIds as $tagId) {
+            $tag= [
+                'id'    => $tagId,
+                'name'  => Tag::find($tagId)->name
+            ];
+            array_push($tags, $tag);
+        }
+        $article['tags'] = $tags;
     }
 
     return $article;

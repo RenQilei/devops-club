@@ -201,6 +201,10 @@ article create
     width: 100%;
 }
 
+#article-create-form-tags {
+    margin-bottom: 20px;
+}
+
 /*
 article show
 */

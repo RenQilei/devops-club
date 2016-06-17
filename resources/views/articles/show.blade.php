@@ -51,6 +51,11 @@
             <div class="typo" id="article-show-content">
                 {!! $article['content_html'] !!}
             </div>
+            <div>
+                @foreach($article['tags'] as $tag)
+                    {{$tag['name']}}<br/>
+                @endforeach
+            </div>
             <div id="article-show-like">
                 <button name="article-show-like-button" class="">
                     <i class="fa fa-heart-o" aria-hidden="true"></i>

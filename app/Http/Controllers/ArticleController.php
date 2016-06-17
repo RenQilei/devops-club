@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Article;
 use App\Category;
 use App\Http\Requests\ArticleRequest;
+use App\Tag;
 use App\User;
 use App\UserArticleLike;
 use Carbon\Carbon;
@@ -47,6 +48,7 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
+        // Insert a new article
         $article = [
             'title' => $request['title'],
             'category_id'   => $request['category'],
@@ -63,6 +65,28 @@ class ArticleController extends Controller
         $category = Category::find($newArticle->category_id);
         $category->article_count += 1;
         $category->save();
+
+        // Update tags
+        $tags = explode(',', $request['tags']);
+        foreach($tags as $tag) {
+            $existedTag = Tag::where('name', $tag)->first();
+            if(!$existedTag) {
+                // Insert new tag
+                $tag = [
+                    'name'  => $tag
+                ];
+                $existedTag = Tag::create($tag);
+            }
+
+            // Now tag has already in the table
+            // Only need to insert record in article_tag table
+            $articleTag = [
+                'article_id'    => $newArticle->id,
+                'tag_id'        => $existedTag->id
+            ];
+
+            DB::table('article_tag')->insert($articleTag);
+        }
 
         return redirect('/article/'.(empty($newArticle->uri) ? $newArticle->id : $newArticle->uri));
     }
@@ -101,9 +125,14 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::find($id)->toArray();
+        $tagIds = DB::table('article_tag')->where('article_id', $id)->lists('tag_id');
+        $tags ='';
+        foreach($tagIds as $tagId) {
+            $tags = $tags.Tag::find($tagId)->name.',';
+        }
         $categories = getCategoryTree();
 
-        return view('articles.edit', compact(['article', 'categories']));
+        return view('articles.edit', compact(['article', 'tags', 'categories']));
     }
 
     /**
@@ -151,6 +180,64 @@ class ArticleController extends Controller
             $category->save();
         }
 
+        // Update tags
+        $updatingTags = explode(',', $request['tags']); // tag name
+        $currentTagIds = DB::table('article_tag')->where('article_id', $id)->lists('tag_id'); // tag id、
+        $currentTagsLength = count($currentTagIds);
+        foreach($updatingTags as $updatingTag) {
+            /**
+             * IF (updatingTag is existed in Tags table)
+             *     IF (relationship of updatingTag and article is existed)
+             *         currentTags rewrite record to empty
+             *     ELSE
+             *         insert new relationship of tag and article
+             * ELSE
+             *     insert new tag
+             *     insert new relationship of tag and article
+             *
+             * delete deprecated relationships after this loop (not empty in currentTags)
+             */
+
+            $existedTag = Tag::where('name', $updatingTag)->first();
+
+            if($existedTag) {
+                $existedArticleTag = 1;
+                for($i = 0; $i < $currentTagsLength; $i++) {
+                    if($existedTag->id == $currentTagIds[$i]) {
+                        $currentTagIds[$i] = '';
+                        $existedArticleTag = 0;
+                        break;
+                    }
+                }
+                if($existedArticleTag) {
+                    $articleTag = [
+                        'article_id'    => $id,
+                        'tag_id'        => $existedTag->id
+                    ];
+
+                    DB::table('article_tag')->insert($articleTag);
+                }
+            }
+            else {
+                $tag = [
+                    'name'  => $updatingTag
+                ];
+                $existedTag = Tag::create($tag);
+
+                $articleTag = [
+                    'article_id'    => $id,
+                    'tag_id'        => $existedTag->id
+                ];
+
+                DB::table('article_tag')->insert($articleTag);
+            }
+        }
+
+        foreach($currentTagIds as $currentTagId) {
+            if($currentTagId != '') {
+                DB::table('article_tag')->where('tag_id', $currentTagId)->delete();
+            }
+        }
         return redirect('/article/'.$id);
     }
 

@@ -71,6 +71,12 @@
                 </div>
             </div>
 
+            <div id="article-create-form-tags" class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="tags" value="{{ $tags }}" placeholder="">
+                </div>
+            </div>
+
             <div id="article-create-form-submit">
                 <button class="btn btn-success" type="submit" value="submit">更新</button>
             </div>
@@ -81,6 +87,7 @@
 @section('head-partial')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('editor.md/css/editormd.min.css') }}" />
+    <link type="text/css" href="{{ URL::asset('tagEditor/jquery.tag-editor.css') }}" rel="stylesheet" />
 @endsection
 
 @section('foot-partial')
@@ -107,6 +114,13 @@
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL : "{{ url('/article/image/upload') }}"
             });
+        });
+    </script>
+    <script type="text/javascript" src="{{ URL::asset('tagEditor/jquery.tag-editor.min.js') }}"></script>
+    <script type="text/javascript">
+        $('input[name="tags"]').tagEditor({
+            delimiter: ',， ',
+            placeholder: '此处键入标签...'
         });
     </script>
 @endsection

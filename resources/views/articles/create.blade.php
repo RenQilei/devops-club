@@ -22,9 +22,21 @@
             <div class="row">
                 <div id="article-create-form-original-select" class="col-lg-4">
                     <select name="source-from" class="form-control">
-                        <option value="0">原创</option>
-                        <option value="1">翻译</option>
-                        <option value="2">转载</option>
+                        @if(old('source-from') == 0)
+                            <option value="0" selected>原创</option>
+                        @else
+                            <option value="0">原创</option>
+                        @endif
+                        @if(old('source-from') == 1)
+                            <option value="1" selected>翻译</option>
+                        @else
+                            <option value="1">翻译</option>
+                        @endif
+                        @if(old('source-from') == 2)
+                            <option value="2" selected>转载</option>
+                        @else
+                            <option value="2">转载</option>
+                        @endif
                     </select>
                 </div>
 
@@ -33,9 +45,17 @@
                         <option value="">请选择一个分类</option>
                         @foreach($categories as $rootCategory)
                             <optgroup label="{{ $rootCategory['name'] }}">
-                                <option value="{{ $rootCategory['id'] }}">{{ $rootCategory['name'] }}</option>
+                                @if($rootCategory['id'] == old('category'))
+                                    <option value="{{ $rootCategory['id'] }}" selected>{{ $rootCategory['name'] }}</option>
+                                @else
+                                    <option value="{{ $rootCategory['id'] }}">{{ $rootCategory['name'] }}</option>
+                                @endif
                                 @foreach($rootCategory['children'] as $childCategory)
-                                    <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
+                                    @if($childCategory['id'] == old('category'))
+                                        <option value="{{ $childCategory['id'] }}" selected>{{ $childCategory['name'] }}</option>
+                                    @else
+                                        <option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>
+                                    @endif
                                 @endforeach
                             </optgroup>
                         @endforeach
@@ -45,16 +65,23 @@
 
             <div id="article-create-form-title" class="row">
                 <div class="col-lg-12">
-                    <input type="text" class="form-control" name="title" placeholder="此处键入标题...">
+                    <input type="text" class="form-control" name="title" value="{{ old('title') }}" placeholder="此处键入标题...">
                 </div>
             </div>
 
             <div id="editor">
+                <textarea>{{ old('editor-markdown-doc') }}</textarea>
             </div>
 
             <div id="article-create-form-uri" class="row">
                 <div class="col-lg-12">
-                    <input type="text" class="form-control" name="uri" placeholder="此处键入URI...">
+                    <input type="text" class="form-control" name="uri" value="{{ old('uri') }}" placeholder="此处键入URI...">
+                </div>
+            </div>
+
+            <div id="article-create-form-tags" class="row">
+                <div class="col-lg-12">
+                    <input type="text" class="form-control" name="tags" value="{{ old('tags') }}" placeholder="">
                 </div>
             </div>
 
@@ -67,7 +94,8 @@
 
 @section('head-partial')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('editor.md/css/editormd.min.css') }}" />
+    <link type="text/css" href="{{ URL::asset('editor.md/css/editormd.min.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ URL::asset('tagEditor/jquery.tag-editor.css') }}" rel="stylesheet" />
 @endsection
 
 @section('foot-partial')
@@ -94,6 +122,13 @@
                 imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                 imageUploadURL : "{{ url('/article/image/upload') }}"
             });
+        });
+    </script>
+    <script type="text/javascript" src="{{ URL::asset('tagEditor/jquery.tag-editor.min.js') }}"></script>
+    <script type="text/javascript">
+        $('input[name="tags"]').tagEditor({
+            delimiter: ',， ',
+            placeholder: '此处键入标签...'
         });
     </script>
 @endsection
