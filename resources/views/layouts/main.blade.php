@@ -61,7 +61,7 @@
 </header>
 
 <main class="container">
-    <div id="main-wrapper">
+    <div id="main-wrapper" class="row">
         @yield('body')
     </div>
 </main>
@@ -79,7 +79,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        if((!document.getElementById('editor')) && (($('header').outerHeight(true) + $('main').outerHeight(true) + $('footer').outerHeight(true) + 50) < window.screen.availHeight)) {
+        if((!document.getElementById('editor')) && (($('header').outerHeight(true) + $('main').outerHeight(true) + $('footer').outerHeight(true) + 50) < $(window).height())) {
             $('footer').css({'bottom': '0', 'position': 'absolute', 'width': '100%'});
         }
     });
