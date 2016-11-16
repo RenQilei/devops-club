@@ -73,7 +73,6 @@ function getArticleInTrashByUserId($id) {
     for($i = 0; $i < count($articles); $i++) {
         $articles[$i] = refineArticle($articles[$i]->id);
     }
-    dd($articles);
 
     return $articles;
 }

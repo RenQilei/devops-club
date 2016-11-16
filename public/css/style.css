@@ -322,23 +322,28 @@ user
 */
 #user-main-sidebar-nav {
     text-align: center;
+    font-size: 0.81em;
 }
 
 .user-main-sidebar-nav-title {
-    padding: 10px 0;
+    padding: 5px 0;
     background-color: #e5e4e6;
 }
 
 .user-main-breadcrumb {
     margin-bottom: 20px;
     border-bottom: 1px solid #e5e4e6;
-    font-size: 1.6em;
+    font-size: 1.1em;
     font-weight: 400;
 }
 
 /*
 user all articles
 */
+#user-article-table thead {
+    font-size: 0.81em;
+}
+
 #user-article-table td {
     font-size: 0.81em;
 }

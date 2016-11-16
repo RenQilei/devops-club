@@ -19,8 +19,9 @@
         <form method="post" action="/article">
             {{ csrf_field() }}
 
+            <!-- 文章来源 -->
             <div class="row">
-                <div id="article-create-form-original-select" class="col-lg-4">
+                <div id="article-create-form-original-select" class="col-lg-2">
                     <select name="source-from" class="form-control">
                         @if(old('source-from') == 0)
                             <option value="0" selected>原创</option>
@@ -40,7 +41,8 @@
                     </select>
                 </div>
 
-                <div id="article-create-form-category-select" class="col-lg-8">
+                <!-- 文章分类 -->
+                <div id="article-create-form-category-select" class="col-lg-4">
                     <select name="category" class="form-control">
                         <option value="">请选择一个分类</option>
                         @foreach($categories as $rootCategory)
@@ -61,6 +63,51 @@
                         @endforeach
                     </select>
                 </div>
+
+                <!-- 文章专题 -->
+                <div id="article-create-form-category-select" class="col-lg-4">
+                    <select name="topic" class="form-control">
+                        <option value="">请选择一个专题</option>
+                        {{--@foreach($categories as $rootCategory)--}}
+                            {{--<optgroup label="{{ $rootCategory['name'] }}">--}}
+                                {{--@if($rootCategory['id'] == old('category'))--}}
+                                    {{--<option value="{{ $rootCategory['id'] }}" selected>{{ $rootCategory['name'] }}</option>--}}
+                                {{--@else--}}
+                                    {{--<option value="{{ $rootCategory['id'] }}">{{ $rootCategory['name'] }}</option>--}}
+                                {{--@endif--}}
+                                {{--@foreach($rootCategory['children'] as $childCategory)--}}
+                                    {{--@if($childCategory['id'] == old('category'))--}}
+                                        {{--<option value="{{ $childCategory['id'] }}" selected>{{ $childCategory['name'] }}</option>--}}
+                                    {{--@else--}}
+                                        {{--<option value="{{ $childCategory['id'] }}">{{ $childCategory['name'] }}</option>--}}
+                                    {{--@endif--}}
+                                {{--@endforeach--}}
+                            {{--</optgroup>--}}
+                        {{--@endforeach--}}
+                    </select>
+                </div>
+
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#mymodal">新增专题</button>
+
+                    <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title">Modal title</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>One fine body&hellip;</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                </div>
             </div>
 
             <div id="article-create-form-title" class="row">
@@ -75,7 +122,7 @@
 
             <div id="article-create-form-uri" class="row">
                 <div class="col-lg-12">
-                    <input type="text" class="form-control" name="uri" value="{{ old('uri') }}" placeholder="此处键入URI...">
+                    <input type="text" class="form-control" name="uri" value="{{ old('uri') }}" placeholder="此处键入URI..." data-toggle="tooltip" data-placement="top" title="仅支持字母、数字、下划线和空格。">
                 </div>
             </div>
 
@@ -86,7 +133,7 @@
             </div>
 
             <div id="article-create-form-submit">
-                <button class="btn btn-success" type="submit" value="submit">发布</button>
+                <button class="btn btn-success" name="submit" type="submit" value="submit">发布</button>
             </div>
         </form>
     </div>
@@ -129,6 +176,44 @@
         $('input[name="tags"]').tagEditor({
             delimiter: ',， ',
             placeholder: '此处键入标签...'
+        });
+    </script>
+
+    <script type="text/javascript">
+//        $(function() {
+//            $('#myModal').modal();
+//        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        $(function() {
+            $("input[name='uri']").change(function() {
+                // retrieve latest value of uri after typing
+                var uri = $(this).val();
+                // get the length of uri
+                var uriLength = uri.length;
+                // evaluate the correctness of uri
+                // only allow english character, number, '_', ' '
+                var reg = new RegExp("[\\w| ]{" + uriLength + "}");
+                var result = reg.test(uri);
+
+                if (!result) {
+                    // error
+
+                    // display error info
+
+                    // disable submit button
+                    $("button[name='submit']").attr('disabled', 'disabled');
+                }
+                else {
+                    // correct
+
+                    // enable submit button
+                    $("button[name='submit']").removeAttr('disabled');
+                }
+            });
         });
     </script>
 @endsection

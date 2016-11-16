@@ -36,7 +36,6 @@ class UserController extends Controller
     {
         $user = User::where('name', $name)->first();
         $articlesInTrash = getArticleInTrashByUserId($user->id);
-        dd($articlesInTrash);
 
         return view('users.trash', compact('articlesInTrash'));
     }

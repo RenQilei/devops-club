@@ -55,7 +55,7 @@ class ArticleController extends Controller
             'user_id'   => Auth::user()->id,
             'content_md'    => $request['editor-markdown-doc'],
             'content_html'  => $request['editor-html-code'],
-            'uri'           => str_replace(' ', '_', $request['uri']),
+            'uri'           => $this->uriFormatter($request['uri']),
             'source_from'   => $request['source-from']
         ];
 
@@ -91,6 +91,12 @@ class ArticleController extends Controller
         return redirect('/article/'.(empty($newArticle->uri) ? $newArticle->id : $newArticle->uri));
     }
 
+    private function uriFormatter($uri) {
+        // convert all character to lower case
+        // replace all blank to '_'
+        return str_replace(' ', '_', strtolower($uri));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -103,10 +109,12 @@ class ArticleController extends Controller
         $article = refineArticle($article);
 
         if($article) {
-            // add one page view count
-            $articleResource = Article::find($article['id']);
-            $articleResource->view_count = $article['view_count'] + 1;
-            $articleResource->save();
+            if(!$article['deleted_at']) {
+                // add one page view count
+                $articleResource = Article::find($article['id']);
+                $articleResource->view_count = $article['view_count'] + 1;
+                $articleResource->save();
+            }
 
             return view('articles.show', compact('categories', 'article'));
         }
