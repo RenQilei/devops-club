@@ -24,6 +24,17 @@ function getCategoryTree() {
 }
 
 /**
+ * Retrieve all children categories by parent category id passing in, and return back in array.
+ *
+ * @param $categoryId
+ * @return array
+ */
+function getChildrenCategoryId($categoryId) {
+
+    return DB::table('categories')->where('parent_category', $categoryId)->lists('id');
+}
+
+/**
  * Get articles that are not deleted, and return as an array.
  *
  * @return array
@@ -56,10 +67,13 @@ function getArticlesByUserId($id) {
 }
 
 function getArticlesByCategoryId($id) {
-    if(!is_array($id)) {
-        $id = [$id];
-    }
-    $articles = Article::whereIn('category_id', $id)->orderBy('created_at', 'desc')->get()->toArray();
+
+    // get children categories if existed, otherwise, is null
+    $categories = getChildrenCategoryId($id);
+    // push itself into category array
+    array_push($categories, $id);
+
+    $articles = Article::whereIn('category_id', $categories)->orderBy('created_at', 'desc')->get()->toArray();
     for($i = 0; $i < count($articles); $i++) {
         $articles[$i] = refineArticle($articles[$i]['id']);
     }

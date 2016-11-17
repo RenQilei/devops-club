@@ -53,11 +53,15 @@
             </div>
             <div id="article-show-tags">
                 <i class="fa fa-tags" aria-hidden="true"></i>
-                @foreach($article['tags'] as $tag)
-                    <a href="{{ url('/tag/'.$tag['id']) }}">
-                        {{$tag['name']}}
-                    </a>
-                @endforeach
+                @if($article['tags'])
+                    @foreach($article['tags'] as $tag)
+                        <a href="{{ url('/tag/'.$tag['id']) }}">
+                            {{$tag['name']}}
+                        </a>
+                    @endforeach
+                @else
+                    <i style="font-style: normal; color: #a3a3a2;">无标签</i>
+                @endif
             </div>
             <div id="article-show-like">
                 <button name="article-show-like-button" class="">

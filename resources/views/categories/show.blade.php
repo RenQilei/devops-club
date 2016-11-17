@@ -29,6 +29,16 @@
                         </a>
                     </div>
                     <div class="category-show-article-additional">
+                            @if(!$category['parent_category'])
+                                <span>
+                                    <a href="{{ url('/category/'.$article['category_info']['id']) }}">
+                                        {{ $article['category_info']['name'] }}
+                                    </a>
+                                </span>
+                                <span>
+                                    &nbsp;|&nbsp;
+                                </span>
+                            @endif
                             <span>
                                 {{ $article['date'] }}
                             </span>
