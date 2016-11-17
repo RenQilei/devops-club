@@ -105,6 +105,7 @@ class ArticleController extends Controller
      */
     public function show($article)
     {
+
         $categories = getCategoryTree();
         $article = refineArticle($article);
 

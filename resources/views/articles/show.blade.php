@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.article-layout')
 
 @section('body')
     <div class="row">

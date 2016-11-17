@@ -108,7 +108,7 @@ function refineArticle($article) {
         $user = User::find($article['user_id']);
         $article['user_info'] = $user->toArray();
         // abstract
-        $article['abstract'] = mb_substr(strip_tags($article['content_html']),0,100,'utf-8').
+        $article['abstract'] = mb_substr(strip_tags(str_replace(array("\r\n", "\r", "\n"), "", $article['content_html'])),0,100,'utf-8').
             '...<a href="'.refineArticleUrl($article).'">[阅读全文]</a>';
         // date refine
         $article['date'] = substr($article['created_at'], 0, 10);
@@ -123,6 +123,20 @@ function refineArticle($article) {
             array_push($tags, $tag);
         }
         $article['tags'] = $tags;
+        // meta keywords
+        $article['meta_keywords'] = '';
+        $tagAmount = count($article['tags']);
+        foreach ($article['tags'] as $key => $tag) {
+            if ($key < $tagAmount - 1) {
+                // 除最后一个以外的 tag 后添加 ','
+                $article['meta_keywords'] .= $tag['name'].',';
+            }
+            else {
+                $article['meta_keywords'] .= $tag['name'];
+            }
+        }
+        // meta description -- abstract of the content
+        $article['meta_description'] = mb_substr(strip_tags(str_replace(array("\r\n", "\r", "\n"), "", $article['content_html'])),0,100,'utf-8').'...';
     }
 
     return $article;

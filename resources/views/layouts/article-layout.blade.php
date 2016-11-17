@@ -7,8 +7,8 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
 
-    <meta name="Keywords" content="Devops,开发运维,开发技术,前端,研发,运维">
-    <meta name="Description" content="与 Devops 相关的原创文章、外文翻译和转载分享。">
+    <meta name="Keywords" content="{{ $article['meta_keywords'] }}">
+    <meta name="Description" content="{{ $article['meta_description'] }}">
 
     <title>DevOps Club</title>
 
@@ -45,6 +45,7 @@
             s.parentNode.insertBefore(bp, s);
         })();
     </script>
+
 </head>
 <body>
 <header>
